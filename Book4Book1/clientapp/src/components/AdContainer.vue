@@ -50,7 +50,7 @@
                 </el-table-column>
             </el-table>
         </div>
-        <AddAdvert/>
+        <AddAdvert v-if="addAdvertVisible"/>
     </div>
 </template>
 
@@ -64,6 +64,7 @@
         },
         data() {
             return {
+                addAdvertVisible: false,
                 tableData: [{
                     date: "2020-09-14 23:38",
                     city: 'Krakow',
@@ -103,9 +104,14 @@
                 }]
             }
         },
+        mounted() {
+            this.$on("visibleAddAdvert", response => {
+                this.addAdvertVisible = response;
+            });
+        },
         methods: {
             addAdvert() {
-                console.log("Dodaj");
+                this.addAdvertVisible = true;
             },
             refreshAdverts() {
                 console.log("Odswiez");
