@@ -50,6 +50,6 @@
     .section-wrapper {
         text-align: center;
         font-size: 25px;
-        color: rgba(44, 54, 64);
+        color: rgb(44, 54, 64);
     }
 </style>
