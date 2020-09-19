@@ -114,7 +114,7 @@
                 this.addAdvertVisible = true;
             },
             refreshAdverts() {
-                console.log("Odswiez");
+                console.log("Refresh Adverts");
             },
             filterHandler(value, row, column) {
                 const property = column['property'];
