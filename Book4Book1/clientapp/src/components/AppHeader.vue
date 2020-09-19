@@ -1,42 +1,55 @@
 <template>
-    <div class="header">
-        <section class="start">
-            <nav>
-                <div class="logo">
-                    Book4Book
-                </div>
-                <ul class="menu" v-bind:class="{ sticky: isMenuSticky }">
-                        <li>
-                            <a href="#app">Start</a>
-                        </li>
-                        <li>
-                            <a href="#ogloszenia">Ogloszenia</a>
-                        </li>
-                        <li>
-                            <a href="#informacje">Jak to dziala?</a>
-                        </li>
-                        <li class="menu-right">
-                            <a href="#Logowanie">Logowanie/Rejestracja</a>
-                        </li>
-                </ul>
-            </nav>
-        </section>
+    <div>
+        <div class="header">
+            <section class="start">
+                <nav>
+                    <div class="logo">
+                        Book4Book
+                    </div>
+                    <ul class="menu" v-bind:class="{ sticky: isMenuSticky }">
+                            <li>
+                                <a href="#app">Start</a>
+                            </li>
+                            <li>
+                                <a href="#ogloszenia">Ogloszenia</a>
+                            </li>
+                            <li>
+                                <a href="#informacje">Jak to dziala?</a>
+                            </li>
+                            <li class="menu-right">
+                                <a @click="showLogin">Logowanie/Rejestracja</a>
+                            </li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+        <LoginPanel v-if="loginPanelVisible"/>
     </div>
 </template>
 
 <script>
+    import LoginPanel from './LoginPanel.vue'
     export default {
+        name: 'AppHeader',
+        components: {
+           LoginPanel,
+        },
         data() {
             return {
                 isMenuSticky: false,
+                loginPanelVisible: false,
             };
         },
-        name: 'AppHeader',
         created() {
             window.addEventListener('scroll', this.handleStickyMenu);
         },
         beforeDestroy() {
             window.removeEventListener('scroll', this.handleStickyMenu);
+        },
+        mounted() {
+            this.$on("visibleLoginPanel", response => {
+                this.loginPanelVisible = response;
+            });
         },
         methods: {
             handleStickyMenu(event) {
@@ -46,6 +59,9 @@
                 } else {
                     this.isMenuSticky = false;
                 }
+            },
+            showLogin() {
+                this.loginPanelVisible = true;
             },
         },
     }
@@ -108,6 +124,7 @@
     }
 
     .menu-right {
+        cursor: pointer;
         position: absolute;
         right: 0px;
         margin-right: 50px;

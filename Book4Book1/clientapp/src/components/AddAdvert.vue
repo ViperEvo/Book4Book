@@ -8,16 +8,37 @@
                     </div>
                 </div>
                 <div class="inputs">
-                    <el-input placeholder="Tytul Ksiazki"
+                    <el-select v-model="city" clearable placeholder="Wybierz Miasto w ktorym mozliwa jest wymiana">
+                        <el-option v-for="option in cities"
+                                   :key="option"
+                                   :label="option"
+                                   :value="option">
+                        </el-option>
+                    </el-select>
+                    <el-select v-model="category" clearable placeholder="Wybierz Kategorie twojej ksiazki">
+                        <el-option v-for="option in categories"
+                                   :key="option"
+                                   :label="option"
+                                   :value="option">
+                        </el-option>
+                    </el-select>
+                    <el-input placeholder="Tytul twojej ksiazki"
                               v-model="title"
                               clearable>
                     </el-input>
-                    <el-input placeholder="Autor Ksiazki"
+                    <el-input placeholder="Autor twojej ksiazki"
                               v-model="author"
                               clearable>
                     </el-input>
+                    <el-input placeholder="Opis"
+                              v-model="description"
+                              clearable>
+                    </el-input>
+                    <div class="information">
+                        Pamietaj aby w opisie umiescic informacje o tym jakie ksiazki Cie interesuja i jaka forma kontaktu preferujesz.
+                    </div>
+                    <el-button @click="addAdvert" type="warning">Dodaj Ogloszenie</el-button>
                 </div>
-                <el-button @click="addAdvert" type="warning">Dodaj Ogloszenie</el-button>
             </div>
         </div>
     </div>
@@ -29,15 +50,33 @@
         data() {
             return {
                 author: '',
-                title: ''
+                category: '',
+                city: '',
+                description: '',
+                title: '',
+                cities: ['Krakow', 'Warszawa'],
+                categories: ['Beletrystyka', 'Fantastyka', 'Horror', 'Inne', 'Komiks/Manga', 'Kryminal', 'Romans', 'Romans Historyczny', 'Literatura Dziecieca', 'Literatura Faktu', 'Literatura Mlodziezowa', 'Literatura Naukowa', 'Literatura Obcojezyczna'],
             }
         },
         methods: {
             addAdvert() {
-                console.log("Dodaj");
+                const advert = new Object();
+                advert.author = this.author;
+                advert.category = this.category;
+                advert.city = this.city;
+                advert.description = this.description;
+                advert.title = this.title;
+                advert.date = this.getDate();
+                console.log(advert);
             },
             closeAddAdvert() {
                 this.$parent.$emit("visibleAddAdvert", false);
+            },
+            getDate() {
+                const date = new Date();
+                const currentDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+                const currentTime = date.getHours() + ":" + date.getMinutes();
+                return currentDate + " " + currentTime;
             },
         }
     }
@@ -61,13 +100,17 @@
         margin-bottom: 20px;
     }
 
+    .el-select {
+        display: block;
+        margin-bottom: 20px;
+    }
+
     .inputs {
         padding: 50px;
     }
 
     .inputs-container {
         display: block;
-        height: 600px;
         padding: 100px;
         margin: auto;
         width: 600px;
@@ -82,11 +125,15 @@
         width: 100%;
     }
 
+    .information {
+        margin-bottom: 20px;
+    }
+
     .overlay {
         background-color: rgba(44, 54, 64, 0.85);
         display: block;
         height: 100%;
-        position: absolute;
+        position: fixed;
         top: 0px;
         width: 100%;
         z-index: 12;

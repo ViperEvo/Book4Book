@@ -7,8 +7,9 @@
             </div>
             <el-table ref="filterTable"
                       :data="tableData"
-                      :default-sort = "{prop: 'date', order: 'descending'}"
+                      :default-sort="{prop: 'date', order: 'descending'}"
                       stripe
+                      height="100%"
                       style="width: 100%">
                 <el-table-column prop="date"
                                  label="Data dodania"
@@ -46,37 +47,46 @@
                 <el-table-column prop="deleter"
                                  label=""
                                  width="200">
-                    <el-button type="warning">Zobacz ogloszenie</el-button>
+                    <template slot-scope="scope">
+                        <el-button type="warning" @click="showAdvert(scope)">Zobacz ogloszenie</el-button>
+                    </template>
                 </el-table-column>
             </el-table>
         </div>
-        <AddAdvert v-if="addAdvertVisible"/>
+        <AddAdvert v-if="addAdvertVisible" />
+        <ShowAdvert v-if="showAdvertVisible" :advertData="advertData"/>
     </div>
 </template>
 
 <script>
     import AddAdvert from './AddAdvert.vue'
+    import ShowAdvert from './ShowAdvert.vue'
 
     export default {
         name: 'AdContainer',
         components: {
             AddAdvert,
+            ShowAdvert,
         },
         data() {
             return {
+                advertData: null,
                 addAdvertVisible: false,
+                showAdvertVisible: false,
                 tableData: [{
                     date: "2020-09-14 23:38",
                     city: 'Krakow',
                     category: 'Fantastyka',
                     title: 'Test1',
-                    author: 'Ziomek1'
+                    author: 'Ziomek1',
+                    description: "TAGASDBALSOLGDSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 }, {
                     date: "2020-09-17 23:38",
                     city: 'Warszawa',
                     category: 'Fantastyka',
                     title: 'Test2',
-                    author: 'Ziomek2'
+                    author: 'Ziomek2',
+                    description: "TAGASDBALSOLGDSA22222"
                 }, {
                     date: "2020-09-16 23:38",
                     city: 'Krakow',
@@ -108,6 +118,9 @@
             this.$on("visibleAddAdvert", response => {
                 this.addAdvertVisible = response;
             });
+            this.$on("visibleAdvert", response => {
+                this.showAdvertVisible = response;
+            });
         },
         methods: {
             addAdvert() {
@@ -115,6 +128,11 @@
             },
             refreshAdverts() {
                 console.log("Refresh Adverts");
+            },
+            showAdvert(scope) {
+                console.log(scope.row);
+                this.showAdvertVisible = true;
+                this.advertData = scope.row;
             },
             filterHandler(value, row, column) {
                 const property = column['property'];
@@ -139,6 +157,7 @@
 
     .el-table {
         background-color: rgb(240, 240, 240);
+        max-height: 600px;
     }
 
     .el-table th, .el-table tr {
