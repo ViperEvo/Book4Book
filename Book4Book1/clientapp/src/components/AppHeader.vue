@@ -52,8 +52,7 @@
             });
         },
         methods: {
-            handleStickyMenu(event) {
-                const menu = document.getElementsByClassName('menu');
+            handleStickyMenu() {
                 if (window.scrollY > 150) {
                     this.isMenuSticky = true;
                 } else {
