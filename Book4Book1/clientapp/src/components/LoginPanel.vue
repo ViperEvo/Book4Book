@@ -57,12 +57,6 @@
             closePanel() {
                 this.$parent.$emit("visibleLoginPanel", false);
             },
-            createAcount() {
-                console.log("Utworz");
-            },
-            login() {
-                console.log("Login");
-            },
             register() {
                 this.showRegisterControlls = true;
             },

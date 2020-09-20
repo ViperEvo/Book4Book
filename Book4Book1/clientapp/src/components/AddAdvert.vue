@@ -67,7 +67,6 @@
                 advert.description = this.description;
                 advert.title = this.title;
                 advert.date = this.getDate();
-                console.log(advert);
             },
             closeAddAdvert() {
                 this.$parent.$emit("visibleAddAdvert", false);

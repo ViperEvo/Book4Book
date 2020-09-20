@@ -61,6 +61,8 @@
 <script>
     import AddAdvert from './AddAdvert.vue'
     import ShowAdvert from './ShowAdvert.vue'
+    import jQuery from 'jquery';
+    let $ = jQuery;
 
     export default {
         name: 'AdContainer',
@@ -127,10 +129,9 @@
                 this.addAdvertVisible = true;
             },
             refreshAdverts() {
-                console.log("Refresh Adverts");
+                this.loadAdverts();
             },
             showAdvert(scope) {
-                console.log(scope.row);
                 this.showAdvertVisible = true;
                 this.advertData = scope.row;
             },

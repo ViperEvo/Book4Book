@@ -32,9 +32,6 @@
                 default: null,
             },
         },
-        mounted() {
-            console.log(this.advertData);
-        },
         methods: {
             closeAdvert() {
                 this.$parent.$emit("visibleAdvert", false);
