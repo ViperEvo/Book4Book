@@ -24,7 +24,7 @@ namespace Book4Book1.Database
                     "CREATE TABLE users (user_id INTEGER PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), email VARCHAR(50), login VARCHAR(50), password VARCHAR(50))",
                     "CREATE TABLE authors (author_id INTEGER PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), birth_date DATE, gender VARCHAR(50))",
                     "CREATE TABLE books (book_id INTEGER PRIMARY KEY, title VARCHAR(50), category VARCHAR(50), description TEXT, author_id INTEGER)",
-                    "CREATE TABLE announcements (announcement_id INTEGER PRIMARY KEY, book_id INTEGER, user_id INTEGER)"
+                    "CREATE TABLE announcements (announcement_id INTEGER PRIMARY KEY, date VARCHAR(50), city VARCHAR(50), category VARCHAR(50), title VARCHAR(50), author VARCHAR(50), description VARCHAR(200))"
                 };
 
                 foreach (var sql in sqlList)
@@ -63,7 +63,7 @@ namespace Book4Book1.Database
 
         public void AddAnnouncement(Announcement announcement)
         {
-            string sql = $"INSERT INTO announcements (book_id, user_id) values ('{announcement.BookId}', '{announcement.UserId}')";
+            string sql = $"INSERT INTO announcements (date, city, category, title, author, description) values ('{announcement.Date}', '{announcement.City}', '{announcement.Category}', '{announcement.Title}', '{announcement.Author}', '{announcement.Description}')";
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
         }
@@ -88,13 +88,13 @@ namespace Book4Book1.Database
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
         }
-
+        /*
         public void RemoveAnnouncement(Announcement announcement)
         {
             string sql = $"DELETE FROM announcements WHERE (book_id = '{announcement.BookId}' AND user_id = '{announcement.UserId}')";
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
-        }
+        }*/
 
         public List<User> GetAllUsers()
         {
@@ -162,7 +162,13 @@ namespace Book4Book1.Database
 
             while (reader.Read())
             {
-                var announcement = new Announcement(Convert.ToInt32(reader["book_id"].ToString()), Convert.ToInt32(reader["user_id"].ToString()))
+                var announcement = new Announcement(
+                    reader["date"].ToString(),
+                    reader["city"].ToString(),
+                    reader["category"].ToString(),
+                    reader["title"].ToString(),
+                    reader["author"].ToString(),
+                    reader["desription"].ToString())
                 {
                     AnnouncementId = Convert.ToInt32(reader["announcement_id"].ToString())
                 };
