@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div>
         <div class="table-wrapper">
             <div class="table-controls">
@@ -137,7 +137,19 @@
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
-            }
+            },
+            loadAdverts() {
+                $.ajax({
+                    type: "POST",
+                    url: "/GetAllAnnouncements",
+                    success: function (response) {
+                        console.log(response)
+                    },
+                    error: function (response) {
+                        console.log("Cos poszlo nie tak" + response)
+                    }
+                })
+            },
         }
     }
 </script>
