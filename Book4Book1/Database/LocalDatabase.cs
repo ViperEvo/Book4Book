@@ -22,7 +22,7 @@ namespace Book4Book1.Database
                 List<string> sqlList = new List<string>()
                 {
                     "CREATE TABLE users (user_id INTEGER PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), email VARCHAR(50), login VARCHAR(50), password VARCHAR(50))",
-                    "CREATE TABLE authors (author_id INTEGER PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), birth_date DATE, gender VARCHAR(50))",
+                    "CREATE TABLE authors (author_id INTEGER PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), birth_date VARCHAR(50), gender VARCHAR(50))",
                     "CREATE TABLE books (book_id INTEGER PRIMARY KEY, title VARCHAR(50), category VARCHAR(50), description TEXT, author_id INTEGER)",
                     "CREATE TABLE announcements (announcement_id INTEGER PRIMARY KEY, date VARCHAR(50), city VARCHAR(50), category VARCHAR(50), title VARCHAR(50), author VARCHAR(50), description VARCHAR(200))"
                 };
@@ -38,6 +38,13 @@ namespace Book4Book1.Database
                 dbConnection = new SQLiteConnection("Data Source=database.sqlite;Version=3;");
                 dbConnection.Open();
             }
+        }
+
+        public void CloseConnection()
+        {
+            dbConnection.Close();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public void AddUser(User user)
@@ -88,13 +95,13 @@ namespace Book4Book1.Database
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
         }
-        /*
+        
         public void RemoveAnnouncement(Announcement announcement)
         {
-            string sql = $"DELETE FROM announcements WHERE (book_id = '{announcement.BookId}' AND user_id = '{announcement.UserId}')";
+            string sql = $"DELETE FROM announcements WHERE (date = '{announcement.Date}' AND city = '{announcement.City}' AND category = '{announcement.Category}' AND title = '{announcement.Title}' AND author = '{announcement.Author}' AND description = '{announcement.Description}')";
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
-        }*/
+        }
 
         public List<User> GetAllUsers()
         {
