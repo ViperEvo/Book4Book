@@ -175,7 +175,7 @@ namespace Book4Book1.Database
                     reader["category"].ToString(),
                     reader["title"].ToString(),
                     reader["author"].ToString(),
-                    reader["desription"].ToString())
+                    reader["description"].ToString())
                 {
                     AnnouncementId = Convert.ToInt32(reader["announcement_id"].ToString())
                 };
