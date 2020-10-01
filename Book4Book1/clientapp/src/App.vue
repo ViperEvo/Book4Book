@@ -16,6 +16,12 @@
                 <div id="informacje"></div>
                 <h2>Informacje</h2>
                 <hr width="85%">
+                <div class="text-wrapper">
+                    Book4Book dziala na zasadzie popularnego w ostatnich latach OLX.
+                    To portal przede wszystkim dla fanow ksiazek, miejsce w ktorym bezplatnie moga wystawic swoje ulubione powiesci i wymieniac sie razem z innymi ksiazkoholikami.
+                    Clou projektu jest bardzo proste - uzytkownik rejestruje sie na strone podajac podstawowe dane takie jak login i haslo. Klikajac w zakladke "dodaj ogloszenie" 
+                    moze dodac krotka informacje na temat ksiazki tj: nazwe, autora oraz gatunek literacki. Uzytkownicy wymieniaja sie ksiazkami lokalnie. Portal zastrzega sobie wystawianie ogloszen platnych.
+                </div>
             </div>
         </section>
     </div>
@@ -51,5 +57,12 @@
         text-align: center;
         font-size: 25px;
         color: rgb(44, 54, 64);
+    }
+
+    .text-wrapper {
+        display: inline-block;
+        margin-bottom: 100px;
+        max-width: 1000px;
+        word-break: break-word;
     }
 </style>

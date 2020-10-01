@@ -75,6 +75,7 @@
                 advertData: null,
                 addAdvertVisible: false,
                 showAdvertVisible: false,
+                consoleLog: "",
                 tableData: [{
                     date: "2020-09-14 23:38",
                     city: 'Krakow',
@@ -144,10 +145,10 @@
                     type: "POST",
                     url: "/GetAllAnnouncements",
                     success: function (response) {
-                        console.log(response)
+                        this.consoleLog = response;
                     },
                     error: function (response) {
-                        console.log("Cos poszlo nie tak" + response)
+                        this.consoleLog = response;
                     }
                 })
             },
