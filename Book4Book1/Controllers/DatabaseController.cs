@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Book4Book1.Database;
+﻿using Book4Book1.Database;
 using Book4Book1.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,24 +17,83 @@ namespace Book4Book1.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult GetAllAnnouncements()
         {
-            var announcement = new Announcement("2020-09-14", "Krakow", "Fantastyka", "Test1", "Ziomek1", "jakisopis");
-            db.AddAnnouncement(announcement);
             var allAnnouncements = db.GetAllAnnouncements();
-            var jsonAnnouncement = new
+            string jsonResult = string.Empty;
+            foreach (var announcement in allAnnouncements)
             {
-                date = allAnnouncements[0].Date,
-                city = allAnnouncements[0].City,
-                category = allAnnouncements[0].Category,
-                title = allAnnouncements[0].Title,
-                author = allAnnouncements[0].Author,
-                description = allAnnouncements[0].Description,
-            };
+                jsonResult += $"announcement: " +
+                    $"{{ " +
+                    $"date:{announcement.Date}," +
+                    $"city:{announcement.City}," +
+                    $"category:{announcement.Category}," +
+                    $"title:{announcement.Title}," +
+                    $"author:{announcement.Author}," +
+                    $"description:{announcement.Description}," +
+                    $"}},";
+            }
 
-            return Json(jsonAnnouncement);
+            return Json(jsonResult);
+        }
+
+        [HttpPost]
+        public ActionResult AddAnnouncement(string date, string city, string category, string title, string author, string description)
+        {
+            var announcement = new Announcement(date, city, category, title, author, description);
+            db.AddAnnouncement(announcement);
+
+            return Json(null);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveAnnouncement(string id)
+        {
+            var allAnnouncements = db.GetAllAnnouncements();
+            foreach (var announcement in allAnnouncements)
+            {
+                if (announcement.AnnouncementId == int.Parse(id))
+                {
+                    db.RemoveAnnouncement(announcement);
+                    break;
+                }
+            }
+
+            return Json(null);
+        }
+
+        [HttpPost]
+        public ActionResult IsUserAuthenticated(string login, string password)
+        {
+            return Json($"{db.IsUserAuthenticated(login, password)}");
+        }
+
+        [HttpPost]
+        public ActionResult AddUser(string firstName, string lastName, string login, string password, string email)
+        {
+            var user = new User(firstName, lastName, email, login, password);
+
+            db.AddUser(user);
+
+            return Json(null);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveUser(string id)
+        {
+            var allUsers = db.GetAllUsers();
+            foreach (var user in allUsers)
+            {
+                if (user.UserId == int.Parse(id))
+                {
+                    db.RemoveUser(user);
+                    break;
+                }
+            }
+
+            return Json(null);
         }
     }
 }

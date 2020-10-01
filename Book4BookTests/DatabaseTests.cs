@@ -1,9 +1,11 @@
 using Book4Book1.Database;
 using Book4Book1.Models;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace Book4BookTests
 {
